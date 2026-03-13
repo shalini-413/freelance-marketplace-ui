@@ -6,7 +6,7 @@ import {
   CheckCircleIcon, PaperAirplaneIcon, ArrowRightIcon,
   UserIcon, ArrowUpTrayIcon, CodeBracketIcon, PaintBrushIcon, WrenchScrewdriverIcon, PlusIcon,
   CloudArrowUpIcon, ChatBubbleLeftRightIcon, PencilSquareIcon, ArrowPathIcon,
-  SquaresPlusIcon, ArrowTopRightOnSquareIcon
+  SquaresPlusIcon, ArrowTopRightOnSquareIcon, ShieldCheckIcon
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
@@ -31,8 +31,8 @@ const MS_APPS = [
 ];
 
 export default function FreelancerDashboard() {
-  const [requestAccepted, setRequestAccepted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [leadAccepted, setLeadAccepted] = useState(false);
 
   const getStatusColor = (status) => {
     if (status === 'In Progress') return 'bg-[#0078FF]/10 text-[#0078FF] border-[#0078FF]/20';
@@ -94,8 +94,6 @@ export default function FreelancerDashboard() {
           </div>
           
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            
-            {/* Adobe Panel */}
             <div className="bg-white p-6 lg:p-8 rounded-[2rem] border-2 border-[#EBF4FA] shadow-sm relative overflow-hidden group hover:border-[#A259FF]/30 transition-colors">
               <div className="absolute -top-32 -right-32 w-64 h-64 bg-[#A259FF]/5 rounded-full blur-[60px] pointer-events-none group-hover:bg-[#A259FF]/10 transition-all"></div>
               <div className="flex items-center justify-between mb-6 relative z-10">
@@ -114,7 +112,6 @@ export default function FreelancerDashboard() {
               </div>
             </div>
 
-            {/* MS Panel */}
             <div className="bg-white p-6 lg:p-8 rounded-[2rem] border-2 border-[#EBF4FA] shadow-sm relative overflow-hidden group hover:border-[#0078FF]/30 transition-colors">
               <div className="absolute -top-32 -right-32 w-64 h-64 bg-[#0078FF]/5 rounded-full blur-[60px] pointer-events-none group-hover:bg-[#0078FF]/10 transition-all"></div>
               <div className="flex items-center justify-between mb-6 relative z-10">
@@ -132,11 +129,80 @@ export default function FreelancerDashboard() {
                 ))}
               </div>
             </div>
-
           </div>
         </div>
 
-        {/* ================= STATS OVERVIEW (Hidden on mobile) ================= */}
+        {/* =========================================
+            NEW PROJECT LEADS (FROM SCREENSHOT)
+            ========================================= */}
+        <div className="mb-10">
+          <div className="mb-6">
+            <h2 className="text-2xl font-black text-[#0F172A] tracking-tight mb-1">New Project Leads</h2>
+            <p className="text-[#64748B] text-sm font-medium">Custom requests posted by customers that match your skills.</p>
+          </div>
+
+          <AnimatePresence>
+            {!leadAccepted && (
+              <motion.div 
+                initial={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95, height: 0, marginBottom: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-[#0F172A] rounded-[2rem] p-6 lg:p-8 flex flex-col lg:flex-row justify-between gap-8 border border-[#1E293B] shadow-xl"
+              >
+                <div className="flex-grow text-white">
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    <span className="bg-[#A259FF] text-white px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-wider">Direct Match</span>
+                    <span className="text-[#94A3B8] text-xs font-bold">Posted 10 mins ago by David Smith</span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-black mb-3 leading-tight">Build a Real Estate SaaS Platform</h3>
+                  <p className="text-[#94A3B8] font-medium leading-relaxed mb-6 lg:mb-8 text-sm sm:text-base max-w-3xl">
+                    "I need a complete MERN stack application for a real estate business. It needs property listings, an admin dashboard, user authentication, and Stripe integration."
+                  </p>
+                  
+                  <div className="flex items-center gap-8">
+                    <div>
+                      <p className="text-[#64748B] text-[10px] font-black uppercase tracking-wider mb-1">Budget</p>
+                      <p className="text-xl sm:text-2xl font-black text-[#00A86B] leading-none">$1,500.00</p>
+                    </div>
+                    <div>
+                      <p className="text-[#64748B] text-[10px] font-black uppercase tracking-wider mb-1">Timeline</p>
+                      <p className="text-lg sm:text-xl font-bold text-white leading-none">30 Days</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 lg:w-72 flex-shrink-0 lg:border-l border-[#1E293B] lg:pl-8 lg:justify-center">
+                  <button 
+                    onClick={() => setLeadAccepted(true)}
+                    className="w-full py-4 bg-[#FFB400] hover:bg-[#e5a200] text-[#0F172A] font-black rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"
+                  >
+                    <CheckCircleIcon className="w-5 h-5" /> Accept & Send Proposal
+                  </button>
+                  <Link to="/freelancer/chat" className="w-full py-4 bg-[#1E293B] hover:bg-[#2e3d52] text-white font-bold rounded-xl transition-all border border-[#334155] flex items-center justify-center gap-2 active:scale-95">
+                    <PaperAirplaneIcon className="w-5 h-5 -rotate-45 -mt-1" /> Message Client
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+            
+            {leadAccepted && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white rounded-[2rem] p-8 text-center border-2 border-[#EBF4FA] shadow-sm"
+              >
+                <div className="w-16 h-16 bg-[#00A86B]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <ShieldCheckIcon className="w-8 h-8 text-[#00A86B]" />
+                </div>
+                <h3 className="text-xl font-black text-[#0F172A] mb-2">Proposal Sent!</h3>
+                <p className="text-[#64748B] font-medium text-sm">We've notified David Smith. You will receive a notification when they reply.</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+        {/* ========================================= */}
+
+        {/* STATS OVERVIEW (Hidden on mobile) */}
         <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           <div className="bg-white p-6 rounded-[2rem] border-2 border-[#EBF4FA] shadow-sm flex items-center gap-5">
             <div className="p-4 bg-[#0078FF]/10 rounded-2xl flex-shrink-0"><BriefcaseIcon className="w-8 h-8 text-[#0078FF]" /></div>

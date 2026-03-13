@@ -6,7 +6,7 @@ import {
   Bars3Icon, XMarkIcon, BellIcon, MagnifyingGlassIcon,
   UserIcon, Cog8ToothIcon, ArrowRightOnRectangleIcon,
   ChevronDownIcon, ChatBubbleLeftEllipsisIcon,
-  QuestionMarkCircleIcon, CreditCardIcon // <-- Added new icons
+  QuestionMarkCircleIcon, CreditCardIcon 
 } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -79,7 +79,7 @@ export default function Header() {
           
           <div className="flex-shrink-0 flex items-center gap-8">
             
-            {/* LOGO (Now routes intelligently based on role) */}
+            {/* LOGO */}
             <Link to={homePath} className="flex items-center gap-2 group">
               <div className="relative w-9 h-9 rounded-tr-[16px] rounded-bl-[16px] rounded-tl-sm rounded-br-sm bg-[#0F172A] flex items-center justify-center transform -rotate-12 group-hover:rotate-0 transition-transform shadow-sm">
                  <div className="w-3.5 h-3.5 rounded-full border-[2px] border-[#6F91C6]"></div>
@@ -97,17 +97,45 @@ export default function Header() {
                 {/* 3. CONDITIONAL EXPLORE DROPDOWN (Hidden from Freelancers) */}
                 {user.role === 'customer' && (
                   <div className="relative" ref={categoryRef}>
-                    <button onClick={() => setIsCategoryOpen(!isCategoryOpen)} className={`flex items-center gap-1 px-4 py-2 rounded-xl text-[14px] font-bold transition-all ${isCategoryOpen ? 'text-[#882FF6] bg-[#EBF4FA]' : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#EBF4FA]'}`}>
-                      Explore <ChevronDownIcon className={`w-4 h-4 transition-transform ${isCategoryOpen ? 'rotate-180' : ''}`} />
+                    <button 
+                      onClick={() => setIsCategoryOpen(!isCategoryOpen)} 
+                      className={`flex items-center gap-1 px-4 py-2 rounded-xl text-[14px] font-bold transition-all duration-200 ${
+                        isCategoryOpen 
+                          ? 'text-[#882FF6] bg-[#EBF4FA]' 
+                          : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#EBF4FA]'
+                      }`}
+                    >
+                      Explore 
+                      <ChevronDownIcon className={`w-4 h-4 transition-transform ${isCategoryOpen ? 'rotate-180 text-[#882FF6]' : 'text-[#94A3B8]'}`} />
                     </button>
+                    
                     <AnimatePresence>
                       {isCategoryOpen && (
-                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="absolute left-0 mt-3 w-72 bg-white rounded-2xl shadow-[0_10px_40px_rgba(15,23,42,0.1)] border border-[#EBF4FA] overflow-hidden z-50 py-2">
-                          {CATEGORIES.map((cat, index) => (
-                            <Link key={cat.name} to={cat.path} onClick={() => setIsCategoryOpen(false)} className={`block px-5 py-3 text-[14px] font-bold transition-colors ${index === 0 ? 'text-[#882FF6] bg-[#882FF6]/5 hover:bg-[#882FF6]/10 border-b border-[#EBF4FA]' : 'text-[#475569] hover:bg-[#EBF4FA] hover:text-[#0F172A]'}`}>
-                              {cat.name}
-                            </Link>
-                          ))}
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10 }} 
+                          animate={{ opacity: 1, y: 0 }} 
+                          exit={{ opacity: 0, y: 10 }} 
+                          className="absolute left-0 mt-3 w-72 bg-white rounded-2xl shadow-[0_10px_40px_rgba(15,23,42,0.1)] border border-[#EBF4FA] overflow-hidden z-50 py-2"
+                        >
+                          {CATEGORIES.map((cat, index) => {
+                            const isCurrentPage = location.pathname.includes(cat.path);
+                            return (
+                              <Link 
+                                key={cat.name} 
+                                to={cat.path} 
+                                onClick={() => setIsCategoryOpen(false)} 
+                                className={`block px-5 py-3 text-[14px] font-bold transition-colors ${
+                                  index !== CATEGORIES.length - 1 ? 'border-b border-[#EBF4FA]' : ''
+                                } ${
+                                  isCurrentPage 
+                                    ? 'text-[#882FF6] bg-[#882FF6]/5 hover:bg-[#882FF6]/10' 
+                                    : 'text-[#475569] hover:bg-[#EBF4FA] hover:text-[#0F172A]'
+                                }`}
+                              >
+                                {cat.name}
+                              </Link>
+                            );
+                          })}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -243,7 +271,21 @@ export default function Header() {
                 {(!user || user.role === 'customer') && (
                   <>
                     <p className="px-4 text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-2 mt-2">Explore</p>
-                    {CATEGORIES.map(cat => <Link key={cat.name} to={cat.path} onClick={() => setIsMobileMenuOpen(false)} className="block py-3 px-4 rounded-xl font-bold text-[#475569] hover:bg-[#EBF4FA] transition-colors">{cat.name}</Link>)}
+                    {CATEGORIES.map((cat) => {
+                      const isCurrentPage = location.pathname.includes(cat.path);
+                      return (
+                        <Link 
+                          key={cat.name} 
+                          to={cat.path} 
+                          onClick={() => setIsMobileMenuOpen(false)} 
+                          className={`block py-3 px-4 rounded-xl font-bold transition-colors ${
+                            isCurrentPage ? 'text-[#882FF6] bg-[#882FF6]/5' : 'text-[#475569] hover:bg-[#EBF4FA]'
+                          }`}
+                        >
+                          {cat.name}
+                        </Link>
+                      );
+                    })}
                     <div className="border-t border-[#EBF4FA] my-4"></div>
                   </>
                 )}
@@ -252,7 +294,7 @@ export default function Header() {
                   <>
                     <p className="px-4 text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-2 mt-2">My Account</p>
                     {navLinks.map((link) => (
-                      <Link key={link.name} to={link.path} onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-[15px] font-bold text-[#64748B] hover:text-[#0F172A] hover:bg-[#EBF4FA]">{link.name}</Link>
+                      <Link key={link.name} to={link.path} onClick={() => setIsMobileMenuOpen(false)} className={`block px-4 py-3 rounded-xl text-[15px] font-bold transition-all ${location.pathname.includes(link.path) ? 'text-[#0F172A] bg-[#EBF4FA]' : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#EBF4FA]'}`}>{link.name}</Link>
                     ))}
                     {user.role === 'customer' && (
                       <Link to="/customer/payments" onClick={() => setIsMobileMenuOpen(false)} className="block px-4 py-3 rounded-xl text-[15px] font-bold text-[#64748B] hover:text-[#0F172A] hover:bg-[#EBF4FA]">Payment History</Link>

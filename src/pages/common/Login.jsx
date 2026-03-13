@@ -47,7 +47,7 @@ function Login() {
               </p>
             </motion.div>
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.2 }} className="w-full bg-white rounded-[24px] p-3 shadow-sm border border-[#E2E8F0]">
-              <div className="w-full aspect-[16/12] bg-[#ECEFF2] rounded-[16px] overflow-hidden relative">
+              <div className="w-full aspect-[18/12] bg-[#ECEFF2] rounded-[16px] overflow-hidden relative">
                 <img src="/login-image.jpg" alt="Workspace" className="w-full h-full object-cover  object-[center_10%]" />
               </div>
             </motion.div>

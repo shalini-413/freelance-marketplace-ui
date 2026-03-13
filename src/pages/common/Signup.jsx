@@ -36,7 +36,7 @@ function Signup() {
               </span>
             </Link>
           </div>
-          <div className="flex flex-col gap-6 w-full mt-6 mb-6">
+          <div className="flex flex-col gap-4 w-full mt-6 mb-6">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <h1 className="text-[38px] xl:text-[42px] font-bold text-[#0F172A] mb-3 leading-[1.1] tracking-tight">
                 Start your journey <br/><span className="text-[#6F91C6]">with us today.</span>
@@ -46,8 +46,8 @@ function Signup() {
               </p>
             </motion.div>
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.2 }} className="w-full bg-white rounded-[24px] p-3 shadow-sm border border-[#E2E8F0]">
-              <div className="w-full aspect-[16/9] bg-[#ECEFF2] rounded-[16px] overflow-hidden relative">
-                <img src="/signup-image.jpg" alt="Signup" className="w-full h-full object-cover" />
+              <div className="w-full aspect-[18/12] bg-[#ECEFF2] rounded-[16px] overflow-hidden relative">
+                <img src="/login-image.jpg" alt="Signup" className="w-full h-full object-cover  object-[center_10%]" />
               </div>
             </motion.div>
           </div>
